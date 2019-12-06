@@ -21,11 +21,11 @@ async function main(): Promise<void> {
     process.exit();
   }, { noAck: true });
 
+  const children: ChildProcess[] = [];
+
   process.on("exit", () =>
     children.forEach((child) => child.kill())
   );
-
-  const children: ChildProcess[] = [];
 
   children.push(fork("src/producer/Producer.ts", [], {
     detached: true,

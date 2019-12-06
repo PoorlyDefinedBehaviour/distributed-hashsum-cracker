@@ -7,10 +7,10 @@ async function start_worker(): Promise<void> {
   const connection = await amqp.connect("amqp://localhost");
   const channel = await connection.createChannel();
 
+  const { target, algo } = process.env;
+
   const queue_name = "jobs";
   await channel.assertQueue(queue_name);
-
-  const { target, algo } = process.env;
 
   channel.consume(queue_name, (message) => {
     const { batch } = JSON.parse(message!.content as any);
@@ -20,7 +20,6 @@ async function start_worker(): Promise<void> {
         const hash = createHash(algo!)
           .update(permutation)
           .digest("hex");
-
 
         if (hash === target) {
           channel.sendToQueue(
