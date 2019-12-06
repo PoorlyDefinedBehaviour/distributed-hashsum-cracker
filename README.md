@@ -15,7 +15,7 @@
 
 ## Other runs
 ```sh
-  sudo docker run -d --name amqp.cracker -p 5672:5672 rabbitmq
+  sudo docker start amqp.cracker
 ```
 ## Example 
 ```sh
